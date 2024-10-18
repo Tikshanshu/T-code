@@ -48,3 +48,8 @@ html{
 .btnBlue:hover{
     background-color: #1775c2;
 }
+.grid{
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px;
+}

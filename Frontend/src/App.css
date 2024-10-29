@@ -36,7 +36,7 @@ html{
     text-decoration: underline;
 }
 .btnBlue{
-    background-color: #00AEEF;
+    background-color: #00aeef;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -53,3 +53,25 @@ html{
     flex-wrap: wrap !important;
     gap: 10px;
 }
+
+.lightMode{
+    background-color: #fff !important;
+    color: #000 !important;
+}
+
+.lightMode .navbar{
+    background-color: #fff;
+  }
+  
+  .lightMode .tabs{
+    background-color: #f7f7f7;
+  }
+  .lightMode .tabs .tab{
+    background-color: #c2c1c1;
+    color: #000;
+  }
+  
+  .lightMode .btn{
+    background-color: #C2C1C1;
+    color: #000;
+  }

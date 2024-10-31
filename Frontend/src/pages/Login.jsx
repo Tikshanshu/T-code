@@ -1,19 +1,43 @@
 import React, { useState } from "react";
 import logo from "../Images/logo.png";
 import signupimage from "../Images/authPageSide.png"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { api_base_url } from "../Helper";
 
 const Login = () => {
  
   const [email, setEmail] = useState("");
   const [pad, setPad] = useState("");
+  const [er, setEr] = useState("");
+
+  const navigate=useNavigate();
   
 
-  const handleSubmit=(e)=>{
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username,email,pad,name);
+    fetch(api_base_url + "/login",{
+      mode: "cors",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: email,
+        password: pad
+      })
+    }).then(res => res.json()).then(data => {
+      if(data.success === true){
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("userId", data.userId);
+        setTimeout(() => {
+          window.location.href = "/"
+        }, 200);
+      } else {
+        setEr(data.message);
+      }
+    })
   }
-
   return (
     <>
       <div className="w-screen min-h-screen flex items-center justify-between pl-[100px]">
@@ -28,6 +52,7 @@ const Login = () => {
               <input  required onChange={(e)=>{setPad(e.target.value)}} type="password" placeholder="password" value={pad}/>
             </div>
             <p className="text-[gray] ml-[10px]">Don't have an account <Link id="loginlink" to="/SignUp" className="text-[#00AEEF] " >Create</Link></p>
+            <p className='text-red-500 text-[14px] my-2'>{er}</p>
             <button className="btnBlue w-full mt-[20px]">Login</button> 
           </form>
         </div>

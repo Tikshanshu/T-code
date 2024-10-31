@@ -2,17 +2,46 @@ import React, { useState } from "react";
 import logo from "../Images/logo.png";
 import signupimage from "../Images/authPageSide.png"
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { api_base_url } from '../Helper';
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [pad, setPad] = useState("");
   const [name, setName] = useState("");
+  const [er,setEr]=useState("");
+
+  const navigate = useNavigate();
+
 
   const handleSubmit=(e)=>{
     e.preventDefault();
-    console.log(username,email,pad,name);
+    fetch(api_base_url + "/signUp",{
+      mode: "cors",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        username: username,
+        name: name,
+        email: email,
+        password: pad
+      })
+    })
+    .then((res)=>res.json())
+    .then((data)=>{
+      if(data.success === true){
+        alert("Account created successfully");
+        navigate("/login"); 
+      }
+      else{
+        setEr(data.message);
+      }
+    })
   }
+
 
   return (
     <>
@@ -34,6 +63,7 @@ const SignUp = () => {
               <input  required onChange={(e)=>{setPad(e.target.value)}} type="password" placeholder="password" value={pad}/>
             </div>
             <p className="text-[gray] ml-[10px]">Already have an account <Link id="loginlink" to="/login" className="text-[#00AEEF] " >Login</Link></p>
+            <p className='text-red-500 text-[14px] my-2'>{er}</p>
             <button className="btnBlue w-full mt-[20px]">Sign Up</button> 
           </form>
         </div>

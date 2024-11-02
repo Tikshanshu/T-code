@@ -3,6 +3,7 @@ var router = express.Router();
 var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 var userModel = require("../models/userModel");
+var projectModel=require("../models/projectModel.js");
 
 
 
@@ -51,6 +52,89 @@ router.post("/login", async (req, res) => {
         return res.json({ success: false, message: "Invalid email or password" });
       }
     });
+  } else {
+    return res.json({ success: false, message: "User not found!" });
+  }
+});
+
+router.post("/getUserDetails",async (req,res)=>{
+  let {userId}=req.body;
+  let user=await userModel.findOne({_id:userId});
+  if(user){
+    return res.json({success:true,message:"User details fetched successfully",user:user});
+    }else{
+      return res.json({success:false,message:"User not found"});
+    }
+})
+
+router.post("/createProject",async (req,res)=>{
+  let {userId,title}=req.body;
+  let user=await userModel.findOne({_id:userId});
+  if(user)
+  {
+    let project=await projectModel.create({
+      title:title,
+      createdBy:userId
+    });
+    return res.json({success:true,message:"Project created successfully",projectId:project._id});
+  }
+  else{
+    return res.json({success:false,message:"User not found"});
+  }
+})
+
+router.post("/getProjects", async (req, res) => {
+  let { userId } = req.body;
+  let user = await userModel.findOne({ _id: userId });
+  if (user) {
+    let projects = await projectModel.find({ createdBy: userId });
+    return res.json({ success: true, message: "Projects fetched successfully", projects: projects });
+  }
+  else {
+    return res.json({ success: false, message: "User not found!" });
+  }
+});
+
+router.post("/deleteProject", async (req, res) => {
+  let {userId, progId} = req.body;
+  let user = await userModel.findOne({ _id: userId });
+  if (user) {
+    let project = await projectModel.findOneAndDelete({ _id: progId });
+    return res.json({ success: true, message: "Project deleted successfully" });
+  }
+  else {
+    return res.json({ success: false, message: "User not found!" });
+  }
+});
+
+router.post("/getProject", async (req, res) => {
+  let {userId,projId} = req.body;
+  let user = await userModel.findOne({ _id: userId });
+  if (user) {
+    let project = await projectModel.findOne({ _id: projId });
+    return res.json({ success: true, message: "Project fetched successfully", project: project });
+  }
+  else{
+    return res.json({ success: false, message: "User not found!" });
+  }
+});
+
+router.post("/updateProject", async (req, res) => {
+  let { userId, htmlCode, cssCode, jsCode, projId } = req.body;
+  let user = await userModel.findOne({ _id: userId });
+
+  if (user) {
+    let project = await projectModel.findOneAndUpdate(
+      { _id: projId },
+      { htmlCode: htmlCode, cssCode: cssCode, jsCode: jsCode },
+      { new: true } // This option returns the updated document
+    );
+
+    if (project) {
+      return res.json({ success: true, message: "Project updated successfully" });
+    } else {
+      return res.json({ success: false, message: "Project not found!" });
+    }
   } else {
     return res.json({ success: false, message: "User not found!" });
   }

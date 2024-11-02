@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo from "../Images/logo.png";
 import signupimage from "../Images/authPageSide.png"
 import { Link, useNavigate } from "react-router-dom";
-import { api_base_url } from "../Helper";
+import { api_base_url } from "../Helper";  // for Backend API  endpoint
 
 const Login = () => {
  

@@ -27,7 +27,6 @@ router.post("/SignUp", async (req,res)=>{
           email: email,
           password: hash
         });
-
         return res.json({ success: true, message: "User created successfully" });
       });
     });

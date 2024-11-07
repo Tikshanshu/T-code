@@ -1,6 +1,6 @@
 let mongoose = require('mongoose');
 
-mongoose.connect("mongodb://localhost:27017/Online-IDE")
+mongoose.connect("mongodb+srv://Tixkshanshu_Tcode:Monu%407091@t-code.qrybk.mongodb.net/?retryWrites=true&w=majority&appName=T-code")
 
 
 let userSchema = new mongoose.Schema({

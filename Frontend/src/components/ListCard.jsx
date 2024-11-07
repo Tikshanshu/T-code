@@ -1,5 +1,5 @@
 import React,{useState} from "react";
-import img from "../images/code.png";
+import codeImage from '../images/code.png';
 import deleteImg from "../images/delete.png";
 import { api_base_url } from "../Helper";
 import { useNavigate } from "react-router-dom";
@@ -42,7 +42,7 @@ const ListCard = ({item}) => {
     <>
       <div  className="listCard mb-2 w-[full] flex items-center justify-between p-[10px] bg-[#141414] cursor-pointer rounded-lg hover:bg-[#202020]">
         <div onClick={()=>{navigate(`/editor/${item._id}`)}} className="flex items-center gap-2">
-          <img className="w-[80px]" src={img} alt="" />
+        <img className="w-[80px]" src={codeImage} alt="" />
           <div>
             <h3 className="text-[20px]">{item.title}</h3>
             <p className="text-[gray] text-[14px]">Created on : {formattedDate} </p>

@@ -1,6 +1,6 @@
 import React,{useState} from "react";
-import codeImage from '../images/code.png';
-import deleteImg from "../images/delete.png";
+import codeImage from '../Images/code.png';
+import deleteImg from "../Images/delete.png";
 import { api_base_url } from "../Helper";
 import { useNavigate } from "react-router-dom";
 
